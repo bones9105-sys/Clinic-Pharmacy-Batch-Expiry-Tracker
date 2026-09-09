@@ -6,10 +6,9 @@ import java.sql.DriverManager;
 // this class handles the connection to the MySQL database
 public class DBConnection {
 
-    // change these according to your MySQL setup
     private static final String URL = "jdbc:mysql://localhost:3306/pharmacy_db";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "R4Odi747#@Go%%"; // put your mysql password here
+    private static final String PASSWORD = "R4Odi747#@Go%%";
 
     // this method gives a connection object to run queries
     public static Connection getConnection() {
