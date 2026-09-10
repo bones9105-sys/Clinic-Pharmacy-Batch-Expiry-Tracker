@@ -20,7 +20,7 @@ public class LedgerDAO {
     // 1. Record stock coming IN (e.g. new purchase)
     // -------------------------------------------------
     public boolean recordStockIn(int medicineId, int quantity, String reason) {
-        String ledgerSql = "INSERT INTO Stock_Ledger (medicine_id, movement_type, quantity, reason, movement_date) " +
+        String ledgerSql = "INSERT INTO Stock_Ledger (medicine_id, transaction_type, quantity, reason, transaction_date) " +
                 "VALUES (?, 'IN', ?, ?, CURDATE())";
         String stockSql  = "UPDATE Stock SET total_quantity = total_quantity + ? WHERE medicine_id = ?";
 
@@ -57,7 +57,7 @@ public class LedgerDAO {
     // -------------------------------------------------
     public boolean recordStockOut(int medicineId, int quantity, String reason) {
         String checkSql  = "SELECT total_quantity FROM Stock WHERE medicine_id = ?";
-        String ledgerSql = "INSERT INTO Stock_Ledger (medicine_id, movement_type, quantity, reason, movement_date) " +
+        String ledgerSql = "INSERT INTO Stock_Ledger (medicine_id, transaction_type, quantity, reason, transaction_date) " +
                 "VALUES (?, 'OUT', ?, ?, CURDATE())";
         String stockSql  = "UPDATE Stock SET total_quantity = total_quantity - ? WHERE medicine_id = ?";
 
@@ -121,10 +121,10 @@ public class LedgerDAO {
                 StockLedger entry = new StockLedger(
                         rs.getInt("ledger_id"),
                         rs.getInt("medicine_id"),
-                        rs.getString("movement_type"),
+                        rs.getString("transaction_type"),
                         rs.getInt("quantity"),
                         rs.getString("reason"),
-                        rs.getDate("movement_date")
+                        rs.getDate("transaction_date")
                 );
                 entries.add(entry);
             }
@@ -155,8 +155,8 @@ public class LedgerDAO {
 
             while (rs.next()) {
                 found = true;
-                System.out.println(rs.getDate("movement_date") +
-                        " | " + rs.getString("movement_type") +
+                System.out.println(rs.getDate("transaction_date") +
+                        " | " + rs.getString("transaction_type") +
                         " | Qty: " + rs.getInt("quantity") +
                         " | " + rs.getString("reason"));
             }
